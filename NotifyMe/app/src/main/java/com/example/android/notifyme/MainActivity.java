@@ -52,27 +52,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setNotificationButtonState(true, false, false);
         createNotificationChannel();
     }
 
     public void sendNotification() {
         NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
         mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
+        setNotificationButtonState(false, true, true);
     }
 
     public void updateNotification() {
         Bitmap androidImage = BitmapFactory
-                .decodeResource(getResources(),R.drawable.mascot_1);
+                .decodeResource(getResources(), R.drawable.mascot_1);
 
         NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
         notifyBuilder.setStyle(new NotificationCompat.BigPictureStyle()
                 .bigPicture(androidImage)
                 .setBigContentTitle("Notification Updated!"));
         mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
+        setNotificationButtonState(false, false, true);
     }
 
     public void cancelNotification() {
         mNotifyManager.cancel(NOTIFICATION_ID);
+        setNotificationButtonState(true, false, false);
     }
 
     public void createNotificationChannel() {
@@ -105,5 +109,13 @@ public class MainActivity extends AppCompatActivity {
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
+    }
+
+    void setNotificationButtonState(Boolean isNotifyEnabled,
+                                    Boolean isUpdateEnabled,
+                                    Boolean isCancelEnabled) {
+        button_notify.setEnabled(isNotifyEnabled);
+        button_update.setEnabled(isUpdateEnabled);
+        button_cancel.setEnabled(isCancelEnabled);
     }
 }
