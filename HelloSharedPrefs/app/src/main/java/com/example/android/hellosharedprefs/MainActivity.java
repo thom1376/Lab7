@@ -15,6 +15,7 @@
  */
 package com.example.android.hellosharedprefs;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -44,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     // Text view to display both count and color
     private TextView mShowCountTextView;
 
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile =
+            "com.example.android.hellosharedprefs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         mShowCountTextView = findViewById(R.id.count_textview);
         mColor = ContextCompat.getColor(this,
                 R.color.default_background);
+
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
 
         // Restore the saved instance state.
         if (savedInstanceState != null) {
