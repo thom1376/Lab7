@@ -3,7 +3,10 @@ package com.example.android.notifyme;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,9 +18,12 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String ACTION_UPDATE_NOTIFICATION =
+            "com.example.android.notifyme.ACTION_UPDATE_NOTIFICATION";
     private static final int NOTIFICATION_ID = 0;
     private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
     private NotificationManager mNotifyManager;
+    private NotificationReceiver mReceiver = new NotificationReceiver();
 
     private Button button_notify;
     private Button button_cancel;
@@ -52,8 +58,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        registerReceiver(mReceiver,new IntentFilter(ACTION_UPDATE_NOTIFICATION));
+
         setNotificationButtonState(true, false, false);
         createNotificationChannel();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     public void sendNotification() {
@@ -117,5 +131,17 @@ public class MainActivity extends AppCompatActivity {
         button_notify.setEnabled(isNotifyEnabled);
         button_update.setEnabled(isUpdateEnabled);
         button_cancel.setEnabled(isCancelEnabled);
+    }
+
+    public class NotificationReceiver extends BroadcastReceiver {
+
+        public NotificationReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Update the notification
+            updateNotification();
+        }
     }
 }
