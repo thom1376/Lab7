@@ -74,6 +74,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putInt(COUNT_KEY, mCount);
+        preferencesEditor.putInt(COLOR_KEY, mColor);
+        preferencesEditor.apply();
+    }
+
     /**
      * Handles the onClick for the background color buttons. Gets background
      * color of the button that was clicked, and sets the TextView background
@@ -96,21 +106,6 @@ public class MainActivity extends AppCompatActivity {
     public void countUp(View view) {
         mCount++;
         mShowCountTextView.setText(String.format("%s", mCount));
-    }
-
-    /**
-     * Saves the instance state if the activity is restarted (for example,
-     * on device rotation.) Here you save the values for the count and the
-     * background color.
-     *
-     * @param outState The state data.
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(COUNT_KEY, mCount);
-        outState.putInt(COLOR_KEY, mColor);
     }
 
     /**
