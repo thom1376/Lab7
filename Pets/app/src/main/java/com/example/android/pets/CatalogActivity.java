@@ -77,6 +77,9 @@ public class CatalogActivity extends AppCompatActivity {
                 null);                  // The sort order for the returned rows
 
         ListView petListView = findViewById(R.id.list);
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        petListView.setEmptyView(emptyView);
         PetCursorAdapter adapter = new PetCursorAdapter(this, cursor);
         petListView.setAdapter(adapter);
     }
