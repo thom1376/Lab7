@@ -57,6 +57,12 @@ public class CatalogActivity extends AppCompatActivity {
         displayDatabaseInfo();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        displayDatabaseInfo();
+    }
+
     private void displayDatabaseInfo() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + PetEntry.TABLE_NAME, null);
